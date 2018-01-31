@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ca">
+<!--
+	document login
+	* @author  Carlos Rodero 
+ * @author  Mario Recamales
+ * @version 1.0
+ * date 20.01.2018
+ * forma del document UTF-8
+ *
+ * CHANGELOG
+ *
+ * NOTES
+ * Projecte M06UF4. Comunicació asíncrona client-servidor.
+ * 4.1 Node.JS
+ * 4.2 Ajax
+ * 4.3 MongoDB
+-->
+	<head>
+		<meta charset="utf-8" />
+		<title>RR_Othello</title>
+
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		
+		<!-- Custom Theme files -->
+		<link href="http://127.0.0.1:8888/css" rel="stylesheet" type="text/css" media="all" />
+		<!--web-fonts-->
+		<link href='//fonts.googleapis.com/css?family=Jura:400,300,500,600' rel='stylesheet' type='text/css'>
+
+	</head>
+	<body>
+		<h1>RR_Othello</h1>
+		<!-- main -->
+		<div class="main">
+			<div id="game-board">
+				<table>
+					<tbody>
+						<tr>
+							<th></th>
+							<th>a</th>
+							<th>b</th>
+							<th>c</th>
+							<th>d</th>
+							<th>e</th>
+							<th>f</th>
+							<th>g</th>
+							<th>h</th>
+						</tr>
+						<tr>
+							<th>1</th>
+							<td class="cell empty " id="cell_0_0"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_1_0"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_2_0"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_3_0"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_4_0"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_5_0"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_6_0"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_7_0"><span class="disc"></span></td>
+						</tr>
+						<tr>
+							<th>2</th>
+							<td class="cell empty " id="cell_0_1"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_1_1"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_2_1"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_3_1"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_4_1"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_5_1"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_6_1"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_7_1"><span class="disc"></span></td>
+						</tr>
+						<tr>
+							<th>3</th>
+							<td class="cell empty " id="cell_0_2"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_1_2"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_2_2"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_3_2"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_4_2"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_5_2"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_6_2"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_7_2"><span class="disc"></span></td>
+						</tr>
+						<tr>
+							<th>4</th>
+							<td class="cell empty " id="cell_0_3"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_1_3"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_2_3"><span class="disc"></span></td>
+							<td class="cell white " id="cell_3_3"><span class="disc"></span></td>
+							<td class="cell black " id="cell_4_3"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_5_3"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_6_3"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_7_3"><span class="disc"></span></td>
+						</tr>
+						<tr>
+							<th>5</th>
+							<td class="cell empty " id="cell_0_4"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_1_4"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_2_4"><span class="disc"></span></td>
+							<td class="cell black " id="cell_3_4"><span class="disc"></span></td>
+							<td class="cell white " id="cell_4_4"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_5_4"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_6_4"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_7_4"><span class="disc"></span></td>
+						</tr>
+						<tr>
+							<th>6</th>
+							<td class="cell empty " id="cell_0_5"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_1_5"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_2_5"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_3_5"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_4_5"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_5_5"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_6_5"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_7_5"><span class="disc"></span></td>
+						</tr>
+						<tr>
+							<th>7</th>
+							<td class="cell empty " id="cell_0_6"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_1_6"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_2_6"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_3_6"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_4_6"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_5_6"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_6_6"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_7_6"><span class="disc"></span></td>
+						</tr>
+						<tr>
+							<th>8</th>
+							<td class="cell empty " id="cell_0_7"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_1_7"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_2_7"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_3_7"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_4_7"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_5_7"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_6_7"><span class="disc"></span></td>
+							<td class="cell empty " id="cell_7_7"><span class="disc"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

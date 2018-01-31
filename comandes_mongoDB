@@ -1,0 +1,29 @@
+per executar servidor:
+node RR_indexOthello.js
+
+Per instal.lar en la carpeta del projecte:
+npm init
+npm install mongodb --save
+
+
+-----------------------------------------
+comandes mongo:
+
+-borrar database:
+
+use daw2;
+db.dropDatabase();
+
+-create database:
+use daw2;
+//insertem un registre de prova
+s = { Name : "TecAdmin.net" }
+db.testData.insert( s );
+
+show dbs
+show tables
+
+db.usuaris.find()
+
+
+
