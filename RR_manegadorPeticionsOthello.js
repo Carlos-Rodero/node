@@ -17,7 +17,7 @@
  * 4.2 Ajax
  * 4.3 MongoDB
  */
-
+'use strict';
 var fs = require('fs');
 var querystring = require("querystring");
 var assert = require('assert'); //utilitzem assercions
@@ -26,18 +26,14 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert'); //utilitzem assercions
 var ObjectId = require('mongodb').ObjectID;
 
-var usuari_logat = false;
-/*
-function iniciarBD(){
-  var ruta = 'mongodb://localhost:27017/daw2';
+//import Jugador from './Jugador';
+var Jugador = require("./Jugador").Jugador;
+var Partida = require("./Partida.js").Partida;
 
-  MongoClient.connect(ruta, function (err, db) {
-		assert.equal(null, err);
-    console.log("Connexió correcta");
-    });
-  return[db,error];
-}
-*/
+var usuari_logat = false;
+var username = "";
+var jugadors = [];
+var sortida;
 
 function inici(response) {
   console.log("manegador de la petició 'iniciar' s'ha cridat.");
@@ -157,16 +153,31 @@ function partida(response,consulta) {
       response.end();
     }else{
       consultarDocumentLogin(db_othello, err, email, password, function () {
-        console.log("login" + usuari_logat)
         if (usuari_logat){
-          //var jugador = new Jugador(nom,email);
-          //jugador.toString;
-          fs.readFile('./partida.html', function(err, sortida) {
-            response.writeHead(200, {
-              'Content-Type' : 'text/html'
+          consultarDocumentUsername(db_othello, err, email, password, function () {
+            jugadors.forEach(function(element) {
+              if (element.email == email){
+                console.log("usuari ja logat");
+              }
             });
-            response.write(sortida);
-            response.end();
+            var jugador = new Jugador(username,email);
+            jugadors.push(jugador)
+            console.log(jugadors.length)
+            if (jugadors.length % 2){
+              console.log("jugadors senars, esperar")
+            }else{
+              console.log("jugadors parells, fer un new partida");
+              var partida = new Partida(jugadors[jugadors.length-1],jugadors[jugadors.length-2])
+              console.log(partida);
+            }
+
+            fs.readFile('./partida.html', function(err, sortida) {
+              response.writeHead(200, {
+                'Content-Type' : 'text/html'
+              });
+              response.write(sortida);
+              response.end();
+            });
           });
         }else{
           html = '<html>'+
@@ -184,6 +195,33 @@ function partida(response,consulta) {
     }
   });
 }
+
+function RR_ajax(response, consulta) {
+  console.log("manegador de la petició 'RR_ajax' s'ha cridat.");
+  response.writeHead(200, {
+    "Content-Type" : "text/html; charset=utf-8"
+  });
+
+  fs.readFile('./RR_ajax.js', function(err, sortida) {
+    response.writeHead(200, {
+      'Content-Type' : 'applicaction/javascript'
+    });
+    response.write(sortida);
+    response.end();
+  });
+}
+
+function taulell(response, consulta) {
+  console.log("manegador de la petició 'taulell' s'ha cridat.");
+  response.writeHead(200, {
+    "Content-Type" : "text/plain; charset=utf-8"
+  });
+  for (var clau in consulta) {
+    sortida = consulta['posicio'];
+  }
+  response.write(sortida);
+  response.end();
+} 
 
 var afegirDocuments = function (db, err, username, email, password, callback) {
   db.collection('usuaris').insertOne({
@@ -211,6 +249,21 @@ var consultarDocumentRegistre = function (db, err, email, callback) {
   });
 };
 
+var consultarDocumentUsername = function (db, err, email, password, callback) {
+  var cursor = db.collection('usuaris').find({
+    "email": email,
+    "password": password
+  });
+  cursor.each(function (err, doc) {
+      assert.equal(err, null);
+      if (doc != null) {
+        username = doc.nom;
+      }else {
+        callback();
+      }
+  });
+};
+
 var consultarDocumentLogin = function (db, err, email, password, callback) {
   var cursor = db.collection('usuaris').find({
     "email": email,
@@ -232,4 +285,6 @@ exports.images_background = images_background;
 exports.login = login;
 exports.register = register;
 exports.partida = partida;
+exports.RR_ajax = RR_ajax;
+exports.taulell = taulell;
 

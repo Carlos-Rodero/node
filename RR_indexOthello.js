@@ -29,4 +29,7 @@ manegadors["/login"] = manegadorPeticions.login;
 manegadors["/register"] = manegadorPeticions.register;
 manegadors["/partida"] = manegadorPeticions.partida;
 
+manegadors["/RR_ajax.js"] = manegadorPeticions.RR_ajax;
+manegadors["/taulell"] = manegadorPeticions.taulell;
+
 server.iniciar(encaminador.encaminar, manegadors);
